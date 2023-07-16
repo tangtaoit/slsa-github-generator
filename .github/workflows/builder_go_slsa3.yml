@@ -49,6 +49,11 @@ defaults:
 on:
   workflow_call:
     inputs:
+      build-os:
+        description: "build os"
+        required: false
+        type: string
+        default: "ubuntu-latest"
       go-version:
         description: "The go version to use."
         required: false
@@ -234,7 +239,7 @@ jobs:
   build:
     outputs:
       go-binary-sha256: ${{ steps.upload.outputs.sha256 }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.build-os }}
     needs: [builder, build-dry, rng, detect-env]
     steps:
       - name: Checkout builder repository
